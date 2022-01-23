@@ -7,6 +7,11 @@ import { fetchCoins } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
+  width: 30vw;
+  margin: auto;
+  @media (max-width: 48rem) {
+    width: 85vw;
+  }
 `;
 const Header = styled.header`
   height: 10vh;

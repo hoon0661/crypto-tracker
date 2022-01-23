@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
+import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import {
   useLocation,
@@ -64,7 +65,7 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ isActive?: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
@@ -124,6 +125,7 @@ interface PriceData {
       ath_date: string;
       ath_price: number;
       market_cap: number;
+      market_cap_change_24h: number;
       percent_change_1y: number;
       percent_change_6h: number;
       percent_change_7d: number;
@@ -172,6 +174,7 @@ function Coin() {
     })();
   }, [coinId]); */
   const loading = infoLoading || tickersLoading;
+  let history = useHistory();
   return (
     <Container>
       <Helmet>
@@ -224,12 +227,20 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price
+                coinId={coinId}
+                priceData={tickersData}
+                isLoading={tickersLoading}
+              />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
             </Route>
           </Switch>
+
+          <Tab>
+            <Link to={`/`}>GO BACK</Link>
+          </Tab>
         </>
       )}
     </Container>

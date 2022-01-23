@@ -30,10 +30,25 @@ function Chart({ coinId }: ChartProps) {
         " Loading chart..."
       ) : (
         <ApexChart
-          type="line"
-          series={[{ name: "price", data: data?.map((price) => price.close) }]}
+          type="candlestick"
+          height={350}
+          series={[
+            {
+              name: "Price",
+              data: data?.map((price) => ({
+                x: price.time_close,
+                y: [
+                  price.open.toFixed(3),
+                  price.high.toFixed(3),
+                  price.low.toFixed(3),
+                  price.close.toFixed(3),
+                ],
+              })),
+            },
+          ]}
           options={{
             chart: {
+              type: "candlestick",
               height: 300,
               width: 500,
               toolbar: {
@@ -45,7 +60,7 @@ function Chart({ coinId }: ChartProps) {
               mode: "dark",
             },
             grid: {
-              show: false,
+              show: true,
             },
             stroke: {
               curve: "smooth",
@@ -55,17 +70,13 @@ function Chart({ coinId }: ChartProps) {
               show: false,
             },
             xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
+              axisBorder: { show: true },
+              axisTicks: { show: true },
+              labels: { show: true },
               type: "datetime",
               categories: data?.map((price) => price.time_close),
             },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            colors: ["#0fbcf9"],
+
             tooltip: {
               y: {
                 formatter: (value) => `$${value.toFixed(3)}`,
