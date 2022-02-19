@@ -3,12 +3,10 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
-import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
-  width: 30vw;
+  width: 60vw;
   margin: auto;
   @media (max-width: 48rem) {
     width: 85vw;
@@ -20,7 +18,16 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
 `;
-const CoinsList = styled.ul``;
+const CoinsList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+
+  @media screen and (max-width: 980px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
 const Coin = styled.li`
   background-color: ${(props) => props.theme.cardBgColor};
   color: ${(props) => props.theme.textColor};
