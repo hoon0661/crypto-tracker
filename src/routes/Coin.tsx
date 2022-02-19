@@ -80,6 +80,10 @@ const Tab = styled.span<{ isActive?: boolean }>`
   }
 `;
 
+const Body = styled.div`
+  margin-top: 100px;
+`;
+
 interface RouteParams {
   coinId: string;
 }
@@ -184,67 +188,69 @@ function Coin({}: ICoinProp) {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
-      <Header>
-        <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
-      </Header>
-      {loading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        <>
-          <Overview>
-            <OverviewItem>
-              <span>Rank:</span>
-              <span>{infoData?.rank}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Symbol:</span>
-              <span>${infoData?.symbol}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Price:</span>
-              <span>{tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
-            </OverviewItem>
-          </Overview>
-          <Description>{infoData?.description}</Description>
-          <Overview>
-            <OverviewItem>
-              <span>Total Suply:</span>
-              <span>{tickersData?.total_supply}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Max Supply:</span>
-              <span>{tickersData?.max_supply}</span>
-            </OverviewItem>
-          </Overview>
-          <Tabs>
-            <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
-            </Tab>
-            <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
-            </Tab>
-          </Tabs>
+      <Body>
+        <Header>
+          <Title>
+            {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          </Title>
+        </Header>
+        {loading ? (
+          <Loader>Loading...</Loader>
+        ) : (
+          <>
+            <Overview>
+              <OverviewItem>
+                <span>Rank:</span>
+                <span>{infoData?.rank}</span>
+              </OverviewItem>
+              <OverviewItem>
+                <span>Symbol:</span>
+                <span>${infoData?.symbol}</span>
+              </OverviewItem>
+              <OverviewItem>
+                <span>Price:</span>
+                <span>{tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
+              </OverviewItem>
+            </Overview>
+            <Description>{infoData?.description}</Description>
+            <Overview>
+              <OverviewItem>
+                <span>Total Suply:</span>
+                <span>{tickersData?.total_supply}</span>
+              </OverviewItem>
+              <OverviewItem>
+                <span>Max Supply:</span>
+                <span>{tickersData?.max_supply}</span>
+              </OverviewItem>
+            </Overview>
+            <Tabs>
+              <Tab isActive={priceMatch !== null}>
+                <Link to={`/${coinId}/price`}>Price</Link>
+              </Tab>
+              <Tab isActive={chartMatch !== null}>
+                <Link to={`/${coinId}/chart`}>Chart</Link>
+              </Tab>
+            </Tabs>
 
-          <Switch>
-            <Route path={`/:coinId/price`}>
-              <Price
-                coinId={coinId}
-                priceData={tickersData}
-                isLoading={tickersLoading}
-              />
-            </Route>
-            <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
-            </Route>
-          </Switch>
+            <Switch>
+              <Route path={`/:coinId/price`}>
+                <Price
+                  coinId={coinId}
+                  priceData={tickersData}
+                  isLoading={tickersLoading}
+                />
+              </Route>
+              <Route path={`/:coinId/chart`}>
+                <Chart coinId={coinId} />
+              </Route>
+            </Switch>
 
-          <Tab>
-            <Link to={`/`}>GO BACK</Link>
-          </Tab>
-        </>
-      )}
+            <Tab>
+              <Link to={`/`}>GO BACK</Link>
+            </Tab>
+          </>
+        )}
+      </Body>
     </Container>
   );
 }

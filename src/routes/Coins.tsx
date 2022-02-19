@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -56,6 +55,10 @@ const Img = styled.img`
   height: 25px;
 `;
 
+const Body = styled.div`
+  margin-top: 100px;
+`;
+
 interface ICoin {
   id: string;
   name: string;
@@ -69,8 +72,6 @@ interface ICoin {
 interface ICoinsProps {}
 
 function Coins() {
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   /*   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,33 +88,34 @@ function Coins() {
       <Helmet>
         <title>Coin</title>
       </Helmet>
-      <Header>
-        <Title>Coin</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
-      </Header>
-      {isLoading ? (
-        <Loader>"Loading..."</Loader>
-      ) : (
-        <CoinsList>
-          {data?.slice(0, 100).map((coin) => {
-            return (
-              <Coin key={coin.id}>
-                <Link
-                  to={{
-                    pathname: `/${coin.id}`,
-                    state: { name: coin.name },
-                  }}
-                >
-                  <Img
-                    src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
-                  />
-                  {coin.name} &rarr;
-                </Link>
-              </Coin>
-            );
-          })}
-        </CoinsList>
-      )}
+      <Body>
+        <Header>
+          <Title>Coin</Title>
+        </Header>
+        {isLoading ? (
+          <Loader>"Loading..."</Loader>
+        ) : (
+          <CoinsList>
+            {data?.slice(0, 100).map((coin) => {
+              return (
+                <Coin key={coin.id}>
+                  <Link
+                    to={{
+                      pathname: `/${coin.id}`,
+                      state: { name: coin.name },
+                    }}
+                  >
+                    <Img
+                      src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                    />
+                    {coin.name} &rarr;
+                  </Link>
+                </Coin>
+              );
+            })}
+          </CoinsList>
+        )}
+      </Body>
     </Container>
   );
 }
