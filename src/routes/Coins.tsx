@@ -1,8 +1,9 @@
 import { useQuery } from "react-query";
-import { Helmet } from "react-helmet";
+
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -91,39 +92,41 @@ function Coins() {
     })();
   }, []); */
   return (
-    <Container>
-      <Helmet>
-        <title>Coin</title>
-      </Helmet>
-      <Body>
-        <Header>
-          <Title>Coin</Title>
-        </Header>
-        {isLoading ? (
-          <Loader>"Loading..."</Loader>
-        ) : (
-          <CoinsList>
-            {data?.slice(0, 100).map((coin) => {
-              return (
-                <Coin key={coin.id}>
-                  <Link
-                    to={{
-                      pathname: `/${coin.id}`,
-                      state: { name: coin.name },
-                    }}
-                  >
-                    <Img
-                      src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
-                    />
-                    {coin.name} &rarr;
-                  </Link>
-                </Coin>
-              );
-            })}
-          </CoinsList>
-        )}
-      </Body>
-    </Container>
+    <HelmetProvider>
+      <Container>
+        <Helmet>
+          <title>Coin</title>
+        </Helmet>
+        <Body>
+          <Header>
+            <Title>Coin</Title>
+          </Header>
+          {isLoading ? (
+            <Loader>"Loading..."</Loader>
+          ) : (
+            <CoinsList>
+              {data?.slice(0, 100).map((coin) => {
+                return (
+                  <Coin key={coin.id}>
+                    <Link
+                      to={{
+                        pathname: `/${coin.id}`,
+                        state: { name: coin.name },
+                      }}
+                    >
+                      <Img
+                        src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                      />
+                      {coin.name} &rarr;
+                    </Link>
+                  </Coin>
+                );
+              })}
+            </CoinsList>
+          )}
+        </Body>
+      </Container>
+    </HelmetProvider>
   );
 }
 export default Coins;
