@@ -8,13 +8,13 @@ interface ChartProps {
 }
 
 interface IHistorical {
-  time_open: string;
-  time_close: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+  time_open: number;
+  time_close: number;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
   market_cap: number;
 }
 
@@ -27,6 +27,7 @@ function Chart({ coinId }: ChartProps) {
       refetchInterval: 10000,
     }
   );
+  console.log(data);
   return (
     <div>
       {isLoading ? (
@@ -40,12 +41,7 @@ function Chart({ coinId }: ChartProps) {
               name: "Price",
               data: data?.map((price) => ({
                 x: price.time_close,
-                y: [
-                  price.open.toFixed(3),
-                  price.high.toFixed(3),
-                  price.low.toFixed(3),
-                  price.close.toFixed(3),
-                ],
+                y: [price.open, price.high, price.low, price.close],
               })),
             },
           ]}
